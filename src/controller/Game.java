@@ -6,14 +6,28 @@ import utilities.PrettyPrinter;
 
 import java.util.Scanner;
 
+/**
+ * The main game class.
+ */
 public class Game {
 
+    /**
+     * The necessary components of a Solitaire game.
+     */
     private Deck deck;
     private Foundations foundations;
     private Tableau tableau;
-    private Scanner in;
     private WastePile wastePile;
+    /**
+     * The input stream.
+     */
+    private Scanner in;
 
+    /**
+     * Public constructor for a Game.
+     *
+     * @param in the input stream
+     */
     public Game(Scanner in) {
         this.deck = new Deck();
         this.foundations = new Foundations();
@@ -22,6 +36,9 @@ public class Game {
         this.in = in;
     }
 
+    /**
+     * Starts and runs the game.
+     */
     public void start() {
         while (!foundations.checkForFullFoundations()) {
             turnStart();
@@ -65,6 +82,11 @@ public class Game {
         }
     }
 
+    /**
+     * Moves a card from a non-tableau pile.
+     *
+     * @param toAdd the card being moved
+     */
     private void moveFromNonTableau(Card toAdd) {
         PrettyPrinter.printNonTableauPutOptions();
 
@@ -84,6 +106,9 @@ public class Game {
         }
     }
 
+    /**
+     * Prints the tableau, foundation, waste pile, and the take options.
+     */
     private void turnStart() {
         this.tableau.printTableau();
         this.foundations.printFoundations();

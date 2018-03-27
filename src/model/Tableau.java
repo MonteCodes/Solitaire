@@ -2,10 +2,21 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * Class representing the Tableau used in Solitaire.
+ */
 public class Tableau {
 
+    /**
+     * An ArrayList of Card ArrayLists that models the Tableau
+     */
     private ArrayList<ArrayList<Card>> tableau;
 
+    /**
+     * Public Constructor for a Tableau object.
+     *
+     * @param deck the deck to deal the tableau from
+     */
     public Tableau(Deck deck) {
         tableau = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
@@ -14,7 +25,20 @@ public class Tableau {
         dealTableau(deck);
     }
 
-    public void dealTableau(Deck d) {
+    /**
+     * Deals cards from the deck as such (U meaning face-up, D meaning face-down):
+     * <p>
+     * U D D D D D D
+     * U D D D D D
+     * U D D D D
+     * U D D D
+     * U D D
+     * U D
+     * U
+     *
+     * @param d the deck to deal from
+     */
+    private void dealTableau(Deck d) {
         for (int i = 0; i < tableau.size(); i++) {
             for (int j = 0; j < i; j++) {
                 tableau.get(i).add(d.dealCard());
@@ -25,6 +49,13 @@ public class Tableau {
         }
     }
 
+    /**
+     * Transfers a Card from the indicated Tableau pile to the Foundation.
+     *
+     * @param from       the tableau pile index
+     * @param foundation the foundation to transfer to
+     * @return true if the transfer is successful. otherwise, false
+     */
     public boolean transferToFoundation(int from, Foundations foundation) {
 
         Card lastInFrom = tableau.get(from).get(tableau.get(from).size() - 1);
@@ -37,6 +68,13 @@ public class Tableau {
         return false;
     }
 
+    /**
+     * Transfers a Card from the indicated Tableau pile to another Tableau pile.
+     *
+     * @param from the pile to transfer from
+     * @param to   the pile to transfer to
+     * @return true if the transfer is successful. otherwise, false
+     */
     public boolean transferBetweenPiles(int from, int to) {
 
         ArrayList<Card> fromPile = tableau.get(from);
@@ -44,7 +82,7 @@ public class Tableau {
         Card firstFlipped = fromPile.get(0);
         boolean found = false;
         for (int i = 0; i < fromPile.size() && !found; i++) {
-            if (fromPile.get(i).isFlipped()) {
+            if (fromPile.get(i).isFaceUp()) {
                 firstFlipped = fromPile.get(i);
                 found = true;
             }
@@ -53,7 +91,7 @@ public class Tableau {
         if ((!toPile.isEmpty() && firstFlipped.canStack(toPile.get(toPile.size() - 1))) || (toPile.isEmpty() && firstFlipped.getValue() == 13)) {
             ArrayList<Card> flipped = new ArrayList<>();
             for (Card c : tableau.get(from)) {
-                if (c.isFlipped()) {
+                if (c.isFaceUp()) {
                     tableau.get(to).add(c);
                     flipped.add(c);
                 }
@@ -65,6 +103,16 @@ public class Tableau {
         }
     }
 
+    /**
+     * Adds the given card to the indicated Tableau pile.
+     *
+     * @param to
+     *          the pile to transfer to
+     * @param card
+     *          the card to add
+     *
+     * @return true if the transfer is successful. otherwise, false
+     */
     public boolean addToTableau(int to, Card card) {
         if (tableau.get(to).isEmpty() && card.getValue() == 13) {
             tableau.get(to).add(card);
@@ -77,19 +125,26 @@ public class Tableau {
         }
     }
 
+    /**
+     * Checks to see if all bottom cards in the piles are flipped correctly.
+     * If one isn't, it is flipped.
+     */
     public void flipBottomCard() {
         for (ArrayList<Card> pile : tableau) {
             if (!pile.isEmpty()) {
                 Card last = pile.get(pile.size() - 1);
-                if (!last.isFlipped()) {
+                if (!last.isFaceUp()) {
                     last.flipCard();
                 }
             }
         }
     }
 
+    /**
+     * Prints the Tableau.
+     */
     public void printTableau() {
-        final int MAX_SIZE = 12;
+        final int MAX_SIZE = 13;
 
         for (int i = 0; i < MAX_SIZE; i++) {
             StringBuilder row = new StringBuilder();

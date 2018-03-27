@@ -1,7 +1,13 @@
 package utilities;
 
+/**
+ * Utility class for printing game options.
+ */
 public final class PrettyPrinter {
 
+    /**
+     * Prints the take options.
+     */
     public static void printTakeOptions() {
         System.out.println("\nWhere would you like to move a card from?\n" +
                 "0: First pile\n" +
@@ -16,6 +22,9 @@ public final class PrettyPrinter {
         System.out.print("Enter: ");
     }
 
+    /**
+     * Prints the put options for non-tableau cards.
+     */
     public static void printNonTableauPutOptions() {
         System.out.println("\nWhere would you like to move the card to?\n" +
                 "0: First pile\n" +
@@ -30,6 +39,9 @@ public final class PrettyPrinter {
         System.out.print("Enter: ");
     }
 
+    /**
+     * Prints the put options for tableau transfers.
+     */
     public static void printTableauPutOptions() {
         System.out.println("\nWhere would you like to move the card to?\n" +
                 "0: First pile\n" +
